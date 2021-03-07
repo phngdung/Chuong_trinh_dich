@@ -2,7 +2,7 @@
 #include <ctype.h>
 #include <string.h>
 #include <stdlib.h>
-
+#include <stdbool.h>
 FILE *f, *output;
 typedef struct word
 {
@@ -37,8 +37,8 @@ void *insert(node **head, word data)
 void inorder(node* head){
   if(head == NULL) return;
   inorder(head->left);
-  printf("%d ",head->data.count);
   printf("%s ",head->data.string);
+  printf("%d ",head->data.count);
    for( int i=0;head->data.line[i]!=0;i++){
   printf("%d ",head->data.line[i]);}
   printf("\n");
@@ -62,21 +62,40 @@ typedef struct stop_w
 {
     char w[30];
 } stop_w;
+ stop_w stop_arr[30];
+bool is_topw( char string[]){
+  for( int i=0;i<30;i++){
+          if(strcmp(stop_arr[i].w,string)==0)
+              return true;
+        }
+    return false;
+}
+void lower(char a[])
+{
+    for (int i = 0; i < strlen(a); i++)
+    {
+        a[i] = tolower(a[i]);
+    }
+}
+bool is_alpha(char a[]){
+  for (int i = 0; i < strlen(a); i++)
+    {
+        if(!isalpha(a[i])) return 0;
+    }
+    return 1;
+}
 int main(){
    int i=0,n;
   char buff[30];
-  stop_w stop_arr[30];
    f = fopen("stopw.txt","r");
      while (fscanf(f, "%s", stop_arr[i].w) != EOF) {
       i++;
    }
    fclose(f);
-
- 
   head=NULL;
   int line=0;
   char *str = (char *)malloc(sizeof(char) * 1000);
-  f = fopen("vanban.txt","r");
+  f = fopen("alice30.txt","r");
 while (fgets(str, 1000, f) != NULL)
     {
         if (strcmp(str, "\r\n") == 0)
@@ -88,6 +107,7 @@ while (fgets(str, 1000, f) != NULL)
         char *token = strtok(str, " ");
         while (token != NULL)
         {
+            
             if (strcmp(token, "\r\n") == 0 || strcmp(token, "\n") == 0 || strcmp(token, "\r") == 0 || strcmp(token, "*") == 0)
                 break;
             while (!isalpha(token[0]) && !isdigit(token[0]))
@@ -103,10 +123,11 @@ while (fgets(str, 1000, f) != NULL)
                 token[a] = '\0';
                 a--;
             }
-            
-            node * is_existed= search(head,token);  
+            lower(token);
+         if(!is_topw(token)&& is_alpha(token))
+         {
+           node * is_existed= search(head,token);  
             if(is_existed==NULL){ 
-            //printf("Tu moi ");
              strcpy(data.string,token);
               data.line[0]=line;
               data.count=1;
@@ -116,16 +137,14 @@ while (fgets(str, 1000, f) != NULL)
                for( int i=0;i<=30;i++){
                  if(is_existed->data.line[i]==line) break;
                  if(is_existed->data.line[i]==0){
-                  // printf(" \t%d \n",line);
                     is_existed->data.line[i]=line;
                     break;
                  }
                }
                is_existed->data.count++;
             }
-          memset(data.line,0,120);
-          memset(data.string,0,120);    
-            token = strtok(NULL, " ");
+         }
+        token = strtok(NULL, " ");
         }
     }
   fclose(f);
