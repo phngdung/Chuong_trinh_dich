@@ -7,7 +7,7 @@ FILE *f, *output;
 typedef struct word
 {
     char string[30];
-    int line[30];
+    int line[50];
     int count;
 } word;
 word data;
