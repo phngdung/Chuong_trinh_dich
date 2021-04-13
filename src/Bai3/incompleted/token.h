@@ -12,7 +12,7 @@
 
 typedef enum {
   TK_NONE, TK_IDENT, TK_NUMBER, TK_CHAR, TK_EOF,
-  TK_STRING,TK_FLOAT,
+
   KW_PROGRAM, KW_CONST, KW_TYPE, KW_VAR,
   KW_INTEGER, KW_CHAR, KW_ARRAY, KW_OF, 
   KW_FUNCTION, KW_PROCEDURE,
@@ -35,6 +35,7 @@ typedef struct {
 
 TokenType checkKeyword(char *string);
 Token* makeToken(TokenType tokenType, int lineNo, int colNo);
+char *tokenToString(TokenType tokenType);
 
 
 #endif
