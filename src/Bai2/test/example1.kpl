@@ -1,5 +1,6 @@
 Program Example1; (* Example 1 *)
 Begin
-E:="hello";
-B:=(. 8 .);
+E:="hello . 10";
+B:=A(.8.);
+z:=8.5;
 End. (* Example 1 *)
