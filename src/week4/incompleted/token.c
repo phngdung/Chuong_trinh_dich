@@ -17,8 +17,9 @@ struct {
   {"TYPE", KW_TYPE},
   {"VAR", KW_VAR},
   {"INTEGER", KW_INTEGER},
-  {"STRING", KW_STRING},
   {"CHAR", KW_CHAR},
+  {"STRING", KW_STRING},
+  {"DOUBLE", KW_DOUBLE},        
   {"ARRAY", KW_ARRAY},
   {"OF", KW_OF},
   {"FUNCTION", KW_FUNCTION},
@@ -37,7 +38,7 @@ struct {
 
 int keywordEq(char *kw, char *string) {
   while ((*kw != '\0') && (*string != '\0')) {
-    if (*kw != toupper(*string)) break;
+    if (*kw != *string) break;
     kw ++; string ++;
   }
   return ((*kw == '\0') && (*string == '\0'));
@@ -64,7 +65,8 @@ char *tokenToString(TokenType tokenType) {
   case TK_NONE: return "None";
   case TK_IDENT: return "an identification";
   case TK_NUMBER: return "a number";
-  case TK_STRING: return "a string";
+  case TK_STRING: return "a string";    
+  case TK_DOUBLE: return "a double";          
   case TK_CHAR: return "a constant char";
   case TK_EOF: return "end of file";
 
@@ -74,8 +76,9 @@ char *tokenToString(TokenType tokenType) {
   case KW_VAR: return "keyword VAR";
   case KW_INTEGER: return "keyword INTEGER";
   case KW_CHAR: return "keyword CHAR";
-  case KW_STRING: return "keyword STRING";
   case KW_ARRAY: return "keyword ARRAY";
+  case KW_STRING: return "keyword STRING";
+  case KW_DOUBLE: return "keyword DOUBLE";                
   case KW_OF: return "keyword OF";
   case KW_FUNCTION: return "keyword FUNCTION";
   case KW_PROCEDURE: return "keyword PROCEDURE";
@@ -109,7 +112,6 @@ char *tokenToString(TokenType tokenType) {
   case SB_RPAR: return "\')\'";
   case SB_LSEL: return "\'(.\'";
   case SB_RSEL: return "\'.)\'";
-  case SB_PERCENT: return "\'%%\'";
   default: return "";
   }
 }
